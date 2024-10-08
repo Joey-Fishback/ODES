@@ -2,7 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import math as mth
+
 
 
 def solveIVP(f, tspan, y0, h, solver):
@@ -21,9 +21,9 @@ def euler(f, t, y, h):
     return y + h * f(t, y)
 
 def f(t,y):
-    return mth.cos(pow(y,2))*t + y
+    return y*t + y
 
-tspan = [0,5]
+tspan = [0,2]
 y0 = 1
 h = 0.2
 
@@ -35,8 +35,25 @@ print(" t | y/n------------------------------------ )")
 for n in range(len(t)):
     print(f"{t[n]:0.1f} | {y[n]:10.6f}")
 
-fig, ax = plt.subplots()
-plt.plot(t,y,"b-o")
+
+
+x = np.linspace(0, 2, 100)
+
+REAL_SOLUTION = pow(2.72,pow(t,2)/2+t)
+
+fig, (ax1, ax2) = plt.subplots(2, 1)
+
+
+ax1.plot(t,y,"b-o")
+ax1.set_title('Euler')
+ax2.plot(t,REAL_SOLUTION )
+ax2.set_title('real solution')
+
 plt.xlabel("$t$")
 plt.ylabel("$y$")
+
+plt.tight_layout()
 plt.show()
+
+
+
