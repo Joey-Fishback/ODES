@@ -19,7 +19,7 @@ class Net(nn.Module):
         self.output_layer = nn.Linear(20, 1)
 
     def forward(self, x):
-        x = torch.tanh(self.hidden_layer1(x))  # Use `tanh` for better stability
+        x = torch.tanh(self.hidden_layer1(x))  # Use `tanh`
         x = torch.tanh(self.hidden_layer2(x))
         x = torch.tanh(self.hidden_layer3(x))
         x = torch.tanh(self.hidden_layer4(x))
@@ -38,7 +38,7 @@ net.apply(init_weights)
 
 # Define loss function and optimizer
 mse_cost_function = torch.nn.MSELoss()
-optimizer = torch.optim.Adam(net.parameters())  # Lower learning rate for stability
+optimizer = torch.optim.Adam(net.parameters())
 
 # Boundary condition: v(x) = x if -a/2 <= x <= a/2, v_0 elsewhere
 a = 2
@@ -89,12 +89,12 @@ for epoch in range(iterations):
         print(f"NaN or Inf detected at epoch {epoch}. Stopping training.")
         break
 
-    loss.backward()
+    loss.backward() # computes dloss/dx for every parameter x which has requires_grad=True.
 
     # Gradient clipping
     torch.nn.utils.clip_grad_norm_(net.parameters(), max_norm=1.0)
 
-    optimizer.step()
+    optimizer.step() #Perform a single optimization step to update parameter.
 
     if epoch % 100 == 0:
         print(f"Epoch {epoch}: Loss = {loss.item()}, BC Loss = {mse_bc.item()}, PDE Loss = {mse_f.item()}")
